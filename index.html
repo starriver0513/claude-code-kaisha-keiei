@@ -1,0 +1,2051 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Claude Codeで会社経営｜AI経営5フェーズ完全ロードマップ 保存版資料</title>
+  <meta name="description" content="商品作成・集客・販売・運営・経理の5フェーズそれぞれで、Claude Codeに何をどこまで任せるかをまとめた実践資料。">
+  <style>
+    :root {
+      --ink: #0b1020;
+      --ink-soft: #22304a;
+      --muted: #5c6880;
+      --blue: #0866ff;
+      --blue-dark: #073b9a;
+      --blue-soft: #eef5ff;
+      --cyan: #28d3ff;
+      --sky: #d9eaff;
+      --line: #d8e4f6;
+      --bg: #f6f9ff;
+      --white: #ffffff;
+      --card: #ffffff;
+      --shadow: 0 22px 60px rgba(8, 32, 80, 0.12);
+      --shadow-soft: 0 12px 34px rgba(8, 32, 80, 0.08);
+      --radius: 18px;
+      --radius-sm: 12px;
+      --max: 1040px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", Meiryo, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 20% 0%, rgba(8, 102, 255, 0.08), transparent 28%),
+        linear-gradient(180deg, #f9fbff 0%, #eef5ff 100%);
+      line-height: 1.9;
+      letter-spacing: 0;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .content-card a,
+    .note a,
+    .mini-card a,
+    .check-list a {
+      color: var(--blue);
+      font-weight: 800;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 3px;
+    }
+
+    .page {
+      width: min(var(--max), calc(100vw - 36px));
+      margin: 0 auto;
+      padding: 36px 0 80px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px;
+      color: #fff;
+      padding: clamp(34px, 5vw, 70px);
+      background:
+        linear-gradient(135deg, rgba(4, 12, 34, 0.95) 0%, rgba(4, 32, 91, 0.96) 48%, rgba(4, 86, 201, 0.94) 100%),
+        linear-gradient(45deg, rgba(255,255,255,0.08) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.08) 75%, transparent 75%);
+      box-shadow: var(--shadow);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(135deg, rgba(255,255,255,0.06) 1px, transparent 1px),
+        linear-gradient(45deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 72px 72px;
+      opacity: 0.55;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 18px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      color: #fff;
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(30px, 6vw, 62px);
+      line-height: 1.2;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .hero-accent {
+      color: #72d9ff;
+      display: inline-block;
+    }
+
+    .hero-copy {
+      width: min(760px, 100%);
+      margin: 22px 0 0;
+      color: rgba(255,255,255,0.9);
+      font-size: clamp(15px, 2vw, 18px);
+      font-weight: 600;
+      overflow-wrap: anywhere;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 26px;
+    }
+
+    .hero-meta span {
+      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.92);
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .notice {
+      margin: 18px 0 0;
+      color: rgba(255,255,255,0.72);
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .intro {
+      margin-top: 30px;
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      border-top: 5px solid var(--blue);
+      padding: clamp(24px, 4vw, 38px);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .intro h2,
+    .toc h2,
+    .content-card h3 {
+      margin-top: 0;
+    }
+
+    .lead {
+      color: var(--ink-soft);
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .note {
+      background: var(--blue-soft);
+      border: 1px solid var(--sky);
+      border-radius: var(--radius-sm);
+      padding: 18px 20px;
+      color: var(--ink-soft);
+      font-size: 14px;
+    }
+
+    .toc {
+      margin-top: 30px;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: clamp(24px, 4vw, 38px);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .toc h2 {
+      font-size: 24px;
+      line-height: 1.35;
+    }
+
+    .toc-list {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0 0;
+      display: grid;
+      gap: 12px;
+    }
+
+    .toc-list a {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid transparent;
+      transition: 0.2s ease;
+      color: var(--ink);
+      font-weight: 700;
+      background: #fbfdff;
+    }
+
+    .toc-list a:hover {
+      border-color: var(--sky);
+      background: var(--blue-soft);
+      transform: translateX(4px);
+    }
+
+    .toc-number {
+      width: 42px;
+      height: 42px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 12px;
+      color: #fff;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+    }
+
+    .section-header {
+      margin: 52px 0 22px;
+      border-radius: 20px;
+      color: #fff;
+      padding: clamp(24px, 4vw, 36px);
+      background:
+        linear-gradient(135deg, #07101f 0%, #092b68 54%, #064dc7 100%);
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .section-header::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(135deg, rgba(255,255,255,0.06) 1px, transparent 1px),
+        linear-gradient(45deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 70px 70px;
+      pointer-events: none;
+    }
+
+    .section-kicker {
+      position: relative;
+      display: inline-flex;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      border-radius: 999px;
+      padding: 5px 16px;
+      font-size: 13px;
+      font-weight: 900;
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      position: relative;
+      margin: 0;
+      color: #fff;
+      font-size: clamp(22px, 4vw, 34px);
+      line-height: 1.35;
+      font-weight: 800;
+    }
+
+    .content-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      border-top: 5px solid var(--blue);
+      padding: clamp(24px, 4vw, 36px);
+      margin-bottom: 22px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .content-card h3 {
+      border-left: 5px solid var(--blue);
+      padding-left: 14px;
+      color: var(--ink);
+      font-size: 22px;
+      line-height: 1.45;
+      font-weight: 800;
+    }
+
+    .content-card h4 {
+      color: var(--blue-dark);
+      font-size: 18px;
+      line-height: 1.45;
+      margin: 28px 0 10px;
+      font-weight: 800;
+    }
+
+    .content-card p {
+      margin: 0 0 14px;
+      color: var(--ink-soft);
+      font-weight: 500;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin: 18px 0;
+    }
+
+    .grid.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .mini-card,
+    .tool-card,
+    .step-card {
+      background: #fbfdff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .mini-card strong,
+    .tool-card strong,
+    .step-card strong {
+      display: block;
+      font-size: 16px;
+      color: var(--ink);
+      margin-bottom: 6px;
+      font-weight: 800;
+    }
+
+    .mini-card p,
+    .tool-card p,
+    .step-card p {
+      font-size: 14px;
+      margin-bottom: 0;
+      color: var(--muted);
+    }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin: 22px 0;
+    }
+
+    .stat {
+      border-radius: 16px;
+      background: linear-gradient(135deg, #061a3c, #075ed7);
+      color: #fff;
+      padding: 20px;
+    }
+
+    .stat small {
+      display: block;
+      color: rgba(255,255,255,0.74);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .stat b {
+      display: block;
+      font-size: clamp(22px, 3vw, 32px);
+      line-height: 1.2;
+      font-weight: 900;
+    }
+
+    .flow {
+      display: grid;
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .flow-item {
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 16px;
+      align-items: start;
+      background: #fbfdff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .flow-index {
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 900;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+    }
+
+    .flow-item h4 {
+      margin: 0 0 4px;
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    .flow-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .check-list,
+    .plain-list {
+      margin: 16px 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .check-list li,
+    .plain-list li {
+      position: relative;
+      padding: 12px 14px 12px 40px;
+      border-radius: 12px;
+      background: #fbfdff;
+      border: 1px solid var(--line);
+      color: var(--ink-soft);
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .check-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 14px;
+      top: 11px;
+      color: var(--blue);
+      font-weight: 900;
+    }
+
+    .plain-list li::before {
+      content: "";
+      position: absolute;
+      left: 17px;
+      top: 22px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--blue);
+    }
+
+    .quote {
+      margin: 20px 0;
+      border-left: 5px solid var(--blue);
+      background: var(--blue-soft);
+      border-radius: 0 14px 14px 0;
+      padding: 18px 22px;
+      color: var(--ink-soft);
+      font-weight: 800;
+    }
+
+    .prompt-card {
+      position: relative;
+      border-radius: 16px;
+      background: #07101f;
+      color: #eaf3ff;
+      border: 1px solid rgba(255,255,255,0.08);
+      overflow: hidden;
+      margin: 18px 0 26px;
+      box-shadow: 0 16px 42px rgba(3, 16, 42, 0.24);
+    }
+
+    .prompt-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .prompt-title {
+      font-size: 13px;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .copy-btn {
+      border: 0;
+      color: #07101f;
+      background: #72d9ff;
+      border-radius: 8px;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: 900;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .copy-btn:hover {
+      background: #fff;
+    }
+
+    pre {
+      margin: 0;
+      padding: 18px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      line-height: 1.8;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 13px;
+    }
+
+    code {
+      font-family: inherit;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 18px 0;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 760px;
+      background: #fff;
+    }
+
+    th {
+      background: #071a3d;
+      color: #fff;
+      text-align: left;
+      padding: 12px 14px;
+      font-size: 13px;
+    }
+
+    td {
+      border-top: 1px solid var(--line);
+      padding: 12px 14px;
+      color: var(--ink-soft);
+      font-size: 13px;
+      vertical-align: top;
+    }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin: 18px 0;
+    }
+
+    .tool-card a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 12px;
+      color: var(--blue);
+      text-decoration: none;
+      font-weight: 900;
+      font-size: 13px;
+    }
+
+    .tool-card a:hover {
+      text-decoration: underline;
+    }
+
+    .cta {
+      margin-top: 52px;
+      border-radius: 22px;
+      padding: clamp(28px, 5vw, 48px);
+      background:
+        linear-gradient(135deg, #06101f, #062b70 55%, #0866ff);
+      color: #fff;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .cta h2 {
+      margin: 0 0 12px;
+      font-size: clamp(24px, 4vw, 36px);
+      line-height: 1.35;
+    }
+
+    .cta p {
+      margin: 0 auto;
+      width: min(760px, 100%);
+      color: rgba(255,255,255,0.84);
+      font-weight: 600;
+    }
+
+    .sources {
+      margin-top: 28px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .sources a {
+      color: var(--blue);
+      font-weight: 800;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--blue-soft);
+      color: var(--blue-dark);
+      font-size: 12px;
+      font-weight: 900;
+      margin-right: 6px;
+    }
+
+    .mobile-only-break {
+      display: none;
+    }
+
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      z-index: 1000;
+      pointer-events: none;
+    }
+
+    .scroll-progress span {
+      display: block;
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--cyan), var(--blue));
+      box-shadow: 0 0 22px rgba(40, 211, 255, 0.45);
+      transition: width 0.12s linear;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at var(--mx, 50%) var(--my, 45%), rgba(114, 217, 255, 0.2), transparent 34%);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      pointer-events: none;
+    }
+
+    .hero:hover::after {
+      opacity: 1;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .toc-list a.is-active {
+      border-color: var(--sky);
+      background: var(--blue-soft);
+      box-shadow: 0 10px 26px rgba(8, 102, 255, 0.12);
+    }
+
+    .mini-card,
+    .flow-item,
+    .prompt-card {
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+    }
+
+    @media (hover: hover) {
+      .mini-card:hover,
+      .flow-item:hover {
+        transform: translateY(-3px);
+        border-color: var(--sky);
+        box-shadow: 0 14px 30px rgba(8, 32, 80, 0.1);
+      }
+    }
+
+    .copy-btn.copied {
+      background: #fff;
+      color: #07101f;
+      animation: copyPulse 0.48s ease;
+    }
+
+    .back-to-top {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      width: 46px;
+      height: 46px;
+      border: 0;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+      color: #fff;
+      font-size: 20px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 16px 34px rgba(8, 32, 80, 0.22);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(12px);
+      transition: opacity 0.22s ease, transform 0.22s ease;
+      z-index: 999;
+    }
+
+    .back-to-top.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .motion-ready .badge,
+    .motion-ready h1,
+    .motion-ready .hero-copy,
+    .motion-ready .hero-meta span {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: heroRise 0.78s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .motion-ready h1 {
+      animation-delay: 0.08s;
+    }
+
+    .motion-ready .hero-copy {
+      animation-delay: 0.18s;
+    }
+
+    .motion-ready .hero-meta span {
+      animation-delay: calc(0.28s + (var(--i, 0) * 0.08s));
+    }
+
+    @keyframes heroRise {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .section-header::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(110deg, transparent 0%, transparent 34%, rgba(255,255,255,0.16) 50%, transparent 66%, transparent 100%);
+      transform: translateX(-130%);
+      pointer-events: none;
+    }
+
+    .section-header.is-visible::after {
+      animation: headerSweep 1.1s ease 0.1s both;
+    }
+
+    @keyframes headerSweep {
+      to {
+        transform: translateX(130%);
+      }
+    }
+
+    .section-rail {
+      position: fixed;
+      top: 50%;
+      right: 18px;
+      z-index: 998;
+      display: grid;
+      gap: 9px;
+      transform: translateY(-50%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .section-rail.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .section-rail a {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: #aac4ec;
+      border: 2px solid #fff;
+      box-shadow: 0 4px 12px rgba(8, 32, 80, 0.18);
+      transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .section-rail a.is-active {
+      background: var(--blue);
+      transform: scale(1.55);
+      box-shadow: 0 0 0 5px rgba(8, 102, 255, 0.14), 0 8px 18px rgba(8, 32, 80, 0.2);
+    }
+
+    .tilt-card {
+      position: relative;
+      overflow: hidden;
+      transform-style: preserve-3d;
+      transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--lift, 0px));
+    }
+
+    .tilt-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 20%, rgba(255,255,255,0.38) 50%, transparent 80%);
+      opacity: var(--glare, 0);
+      transform: translateX(var(--gx, -120%));
+      transition: opacity 0.18s ease, transform 0.18s ease;
+      pointer-events: none;
+    }
+
+    .prompt-card.tilt-card::after {
+      background: linear-gradient(135deg, transparent 18%, rgba(114, 217, 255, 0.16) 50%, transparent 82%);
+    }
+
+    @keyframes copyPulse {
+      0% {
+        transform: scale(1);
+      }
+      45% {
+        transform: scale(1.06);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      .scroll-progress span,
+      .hero::after,
+      .reveal,
+      .mini-card,
+      .flow-item,
+      .prompt-card,
+      .back-to-top,
+      .section-rail,
+      .section-rail a,
+      .tilt-card,
+      .tilt-card::after,
+      .motion-ready .badge,
+      .motion-ready h1,
+      .motion-ready .hero-copy,
+      .motion-ready .hero-meta span,
+      .section-header::after,
+      .copy-btn.copied {
+        animation: none;
+        transition: none;
+      }
+
+      .reveal,
+      .motion-ready .badge,
+      .motion-ready h1,
+      .motion-ready .hero-copy,
+      .motion-ready .hero-meta span {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    @media (max-width: 1180px) {
+      .section-rail {
+        display: none;
+      }
+    }
+
+    @media (max-width: 820px) {
+      .grid,
+      .grid.three,
+      .stat-row,
+      .tool-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .toc-list a {
+        grid-template-columns: 36px 1fr;
+        gap: 12px;
+      }
+
+      .toc-number {
+        width: 36px;
+        height: 36px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .page {
+        width: calc(100vw - 22px);
+        max-width: var(--max);
+        padding-top: 18px;
+      }
+
+      .hero,
+      .section-header,
+      .intro,
+      .toc,
+      .content-card,
+      .cta {
+        border-radius: 16px;
+      }
+
+      .hero {
+        padding: 28px 22px;
+      }
+
+      .flow-item {
+        grid-template-columns: 44px 1fr;
+      }
+
+      .flow-index {
+        width: 44px;
+        height: 44px;
+        font-size: 15px;
+      }
+
+      pre {
+        font-size: 12px;
+      }
+
+      .mobile-only-break {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="scroll-progress" aria-hidden="true"><span></span></div>
+  <div class="page">
+    <header class="hero">
+      <div class="hero-inner">
+        <div class="badge">SAVE MATERIAL</div>
+        <h1>Claude Codeで<br class="mobile-only-break">会社経営<br><span class="hero-accent">5フェーズ完全ロードマップ</span></h1>
+        <p class="hero-copy">商品作成、集客、販売、運営、経理。会社経営の5つのフェーズそれぞれで、Claude Codeに何をどこまで任せるのか。動画を見たあとに、そのまま手を動かせる保存版資料です。</p>
+        <div class="hero-meta">
+          <span>AI経営5フェーズ</span>
+          <span>API・スキル実務</span>
+          <span>全プロンプト収録</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="intro" id="about">
+      <h2>この資料について</h2>
+      <p class="lead">今回は動画のご視聴と、保存版資料のお受け取りをいただきありがとうございます。</p>
+      <p>この資料では、動画内容のまとめと、実践に落とし込むための手順を整理しています。</p>
+      <div class="grid three">
+        <div class="mini-card">
+          <strong>1. 全体像をつかむ</strong>
+          <p>会社経営を商品作成・集客・販売・運営・経理の5フェーズに分解し、AIに任せる範囲と人間がやる範囲を分けます。</p>
+        </div>
+        <div class="mini-card">
+          <strong>2. Claude Codeで作る</strong>
+          <p>経営フォルダを作り、API連携とスキル化で、リサーチから投稿作成、資料作成までを回します。</p>
+        </div>
+        <div class="mini-card">
+          <strong>3. プロンプトを使う</strong>
+          <p>各フェーズで使えるプロンプトを、コピーしてそのまま使える形で収録しています。</p>
+        </div>
+      </div>
+      <div class="note">
+        動画でお伝えした通り、AI経営がうまくいくかどうかは「AIに何を読ませるか」で決まります。いきなり完璧な指示を書こうとするより、先に自分の商品・実績・お客様の声・過去発信をフォルダに集めて、Claude Codeが文脈を読める状態を作るほうが早いです。
+      </div>
+      <h4>おすすめの使い方</h4>
+      <ul class="check-list">
+        <li>まずは全体を一周して、5フェーズの流れをざっくり掴む</li>
+        <li>次に経営フォルダを作り、自分の商品・実績・発信をざっと入れる</li>
+        <li>商品作成、集客の順で手を動かす（売上に直結する順番です）</li>
+        <li>販売はセミナーかVSLをどちらか1本作るところまで進める</li>
+        <li>経理は売上が立ってから着手する。先にやっても意味がありません</li>
+      </ul>
+    </section>
+
+    <nav class="toc" aria-label="目次">
+      <h2>CONTENTS</h2>
+      <ul class="toc-list">
+        <li><a href="#sec1"><span class="toc-number">1</span>AI経営の全体像と5フェーズ</a></li>
+        <li><a href="#sec2"><span class="toc-number">2</span>Claude CodeとChatGPTの使い分け</a></li>
+        <li><a href="#sec3"><span class="toc-number">3</span>経営フォルダを作って情報を集める</a></li>
+        <li><a href="#sec4"><span class="toc-number">4</span>商品作成｜HARMの法則で設計する</a></li>
+        <li><a href="#sec5"><span class="toc-number">5</span>集客①｜APIでリサーチを自動化する</a></li>
+        <li><a href="#sec6"><span class="toc-number">6</span>集客②｜スキル化して投稿を量産する</a></li>
+        <li><a href="#sec7"><span class="toc-number">7</span>販売①｜ナーチャリングとセミナー・VSL</a></li>
+        <li><a href="#sec8"><span class="toc-number">8</span>販売②｜プロダクトナレッジと無料相談</a></li>
+        <li><a href="#sec9"><span class="toc-number">9</span>運営｜数値改善とサポート</a></li>
+        <li><a href="#sec10"><span class="toc-number">10</span>経理｜freee連携で仕訳を自動化する</a></li>
+      </ul>
+    </nav>
+
+    <section id="sec1">
+      <div class="section-header">
+        <div class="section-kicker">SECTION 01</div>
+        <h2 class="section-title">AI経営の全体像と5フェーズ</h2>
+      </div>
+      <div class="content-card">
+        <h3>会社経営は、分解すると5つしかない</h3>
+        <p>会社経営というと複雑に聞こえますが、やっていることを分解すると、商品を作る、集客する、販売する、運営する、経理をやる。この5つです。星川の場合、この5つ全部にClaude Codeを組み込んでいます。</p>
+        <div class="quote">AI経営がうまくいくかどうかは「AIに何を読ませるか」で決まります。AIに与える情報の質が、そのまま成果の質になります。</div>
+        <div class="flow">
+          <div class="flow-item">
+            <div class="flow-index">1</div>
+            <div>
+              <h4>商品作成</h4>
+              <p>オンラインで完結する講座形式が、制作物をすべてデータとして扱えるためAIと相性がよい。HARMの法則で需要のある領域を選ぶ。</p>
+            </div>
+          </div>
+          <div class="flow-item">
+            <div class="flow-index">2</div>
+            <div>
+              <h4>集客</h4>
+              <p>まずは無料で始められるSNSから。APIでリサーチを自動化し、スキル化して投稿を量産する。</p>
+            </div>
+          </div>
+          <div class="flow-item">
+            <div class="flow-index">3</div>
+            <div>
+              <h4>販売</h4>
+              <p>ナーチャリングで信頼を積み上げ、セミナーかVSLで商品の価値を伝えて販売する。</p>
+            </div>
+          </div>
+          <div class="flow-item">
+            <div class="flow-index">4</div>
+            <div>
+              <h4>運営</h4>
+              <p>ファネルの数値を見て改善を回しつつ、お客様のサポートに全力を注ぐ。</p>
+            </div>
+          </div>
+          <div class="flow-item">
+            <div class="flow-index">5</div>
+            <div>
+              <h4>経理</h4>
+              <p>売上が立ってからでOK。freeeとClaude Codeをつないで仕訳を自動化する。</p>
+            </div>
+          </div>
+        </div>
+        <h4>AIに任せる範囲と、人間がやる範囲</h4>
+        <p>動画でお伝えした通り、全部をAIに投げるわけではありません。手を動かす作業はほぼ任せますが、次の2つは人間がやってください。</p>
+        <div class="grid">
+          <div class="mini-card">
+            <strong>人間がやる①：お客様の生の声を集める</strong>
+            <p>無料相談やモニター指導で、実際にお客様がどんな言葉で悩みを話すかを直接聞く。AIはこれを知りません。</p>
+          </div>
+          <div class="mini-card">
+            <strong>人間がやる②：お客様へのサポート</strong>
+            <p>信頼をつくるのは口コミ、口コミを生むのはお客様の成果です。ここは自分の時間を使う価値があります。</p>
+          </div>
+        </div>
+        <div class="note">
+          逆に言うと、ナレッジのまとめ、リサーチ、投稿作成、資料作成、数値分析、仕訳はAI駆動で回せます。人間が集めた生の情報をAIに渡すことで、はじめてAIの出力が刺さるものになります。
+        </div>
+        <h4>どこから着手するか</h4>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>現在の状況</th>
+                <th>最初に取り組むフェーズ</th>
+                <th>この資料の該当セクション</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>まだ商品がない</td>
+                <td>商品作成（HARMの法則で領域を決める）</td>
+                <td>SECTION 03・04</td>
+              </tr>
+              <tr>
+                <td>商品はあるが集客できていない</td>
+                <td>集客（APIリサーチ → スキル化）</td>
+                <td>SECTION 05・06</td>
+              </tr>
+              <tr>
+                <td>集客はできているが売れない</td>
+                <td>販売（ナーチャリング → セミナー/VSL）</td>
+                <td>SECTION 07・08</td>
+              </tr>
+              <tr>
+                <td>売上は立っている</td>
+                <td>運営と経理（改善・サポート・仕訳自動化）</td>
+                <td>SECTION 09・10</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="sec2">
+      <div class="section-header">
+        <div class="section-kicker">SECTION 02</div>
+        <h2 class="section-title">Claude CodeとChatGPTの使い分け</h2>
+      </div>
+      <div class="content-card">
+        <h3>「仕事をやってくれるAI」と「質問に答えるAI」</h3>
+        <p>ChatGPTでも効率化自体はできます。ただ、会社経営を任せるならClaude Codeです。違いは、実際にタスクを実行するのが誰かという点にあります。</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>観点</th>
+                <th>Claude Code</th>
+                <th>チャット型のAI（ChatGPTなど）</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>位置づけ</td>
+                <td>仕事をやってくれるAI</td>
+                <td>質問に答えるAI</td>
+              </tr>
+              <tr>
+                <td>ファイル操作</td>
+                <td>自分のパソコンのフォルダを直接読み書きできる</td>
+                <td>毎回コピー＆ペーストで情報を渡す必要がある</td>
+              </tr>
+              <tr>
+                <td>外部ツール連携</td>
+                <td>X、YouTube、Chatworkなどの外部ツールも操作できる</td>
+                <td>基本はテキストのやり取りで完結する</td>
+              </tr>
+              <tr>
+                <td>実行者</td>
+                <td>AIが実際に作業して成果物を保存する</td>
+                <td>返ってきた回答をもとに人間が作業する</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="quote">会社のデータごと任せられる。だから経営の丸投げができます。</div>
+        <h4>Claude Codeの始め方</h4>
+        <ul class="check-list">
+          <li>公式のクイックスタートに沿ってインストールする（<a href="https://docs.claude.com/en/docs/claude-code/quickstart" target="_blank" rel="noopener">Claude Code クイックスタート</a>）</li>
+          <li>ターミナルが苦手な方は、デスクトップアプリ版から始めても問題ありません</li>
+          <li>まずは自分の経営フォルダを1つ作って、そこを作業場所として開く（SECTION 03）</li>
+        </ul>
+        <div class="note">
+          用語補足：ターミナル（パソコンに文字で命令を出すための画面）。Claude Codeはここから起動しますが、実際に打ち込むのは日本語の指示なので、コードを書ける必要はありません。
+        </div>
+        <h4>「放置で回る」の中身</h4>
+        <p>Claude Codeは、決めた時間に決めた仕事を自動で実行させられます。動画でお話しした通り、朝8時にリサーチ、夕方に投稿の下書き、といった形で設定しておくと、自分が別の仕事をしていても裏で作業が進みます。</p>
+        <div class="prompt-card">
+          <div class="prompt-head">
+            <div class="prompt-title">定期実行を設定してもらうプロンプト</div>
+            <button class="copy-btn" type="button">コピー</button>
+          </div>
+<pre><code>毎朝8時に実行する定期タスクを作ってください。
+
+やってほしいことは以下です。
+1. 保存済みのリサーチスキルを実行して、直近で伸びている投稿を取得する
+2. 取得した内容を 02_リサーチ/ に日付つきで保存する
+3. その日に使えそうな投稿ネタを5個、箇条書きでまとめる
+
+設定方法と、実行結果をどこで確認できるかも教えてください。</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="sec3">
+      <div class="section-header">
+        <div class="section-kicker">SECTION 03</div>
+        <h2 class="section-title">経営フォルダを作って情報を集める</h2>
+      </div>
+      <div class="content-card">
+        <h3>最初にやるのは、情報を1つのフォルダにまとめること</h3>
+        <p>AI経営は、AIに何を読ませるかがすべてです。フォルダに情報が溜まった分だけ、Claude Codeに任せられる仕事が増えていきます。まずは自分の商品や事業の情報を1箇所に集めるところから始めてください。</p>
+        <div class="prompt-card">
+          <div class="prompt-head">
+            <div class="prompt-title">経営フォルダ構築プロンプト</div>
+            <button class="copy-btn" type="button">コピー</button>
+          </div>
+<pre><code>会社経営をAIに任せるための作業フォルダを作ってください。
+
+以下の構成でフォルダを作成してください。
+
+01_商品
+02_リサーチ
+03_集客_SNS
+04_販売_セミナー
+05_お客様の声
+06_実績_数値
+07_経理
+08_スキル
+99_参考資料
+
+各フォルダの中に、そのフォルダに何を入れるべきかを説明した
+README.md も作成してください。</code></pre>
+        </div>
+        <h4>Claude Codeに渡す素材</h4>
+        <div class="grid">
+          <div class="mini-card">
+            <strong>商品・実績系</strong>
+            <p>商品の内容と価格、講座資料、お客様の成果、お客様の声、よくある質問と回答。</p>
+          </div>
+          <div class="mini-card">
+            <strong>発信・お客様の声系</strong>
+            <p>過去のSNS投稿、YouTube台本、無料相談の文字起こし、お客様からの質問、参考にしている競合の発信。</p>
+          </div>
+        </div>
+        <h4>ファイル名のルール</h4>
+        <ul class="plain-list">
+          <li>日付、種類、内容が分かる名前にする</li>
+          <li>例：2026-06-01_X投稿_商品作成の悩み.md</li>
+          <li>例：無料相談_40代女性_ダイエット_文字起こし.md</li>
+          <li>例：お客様の声_受講3ヶ月_売上変化.md</li>
+          <li>あとからAIが読みやすいように、1ファイル1テーマで保存する</li>
+        </ul>
+        <div class="note">
+          用語補足：ナレッジ（AIに読ませるための情報のまとまり）。特別な形式は不要で、テキストファイルに書いて上のフォルダに入れておけば大丈夫です。
+        </div>
+        <h4>素材を整理してもらうプロンプト</h4>
+        <div class="prompt-card">
+          <div class="prompt-head">
+            <div class="prompt-title">集めた素材の分類整理プロンプト</div>
+            <button class="copy-btn" type="button">コピー</button>
+          </div>
+<pre><code>今から自分の事業に関する素材を渡します。
+
+以下をやってください。
+1. 内容を読んで、経営フォルダのどこに置くべきか判断する
+2. 判断した理由を1行で添える
+3. ファイル名を命名ルールに沿って提案する
+4. 内容が薄いもの、重複しているものがあれば指摘する
+
+命名ルール：YYYY-MM-DD_種類_内容.md</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="sec4">
+      <div class="section-header">
+        <div class="section-kicker">SECTION 04</div>
+        <h2 class="section-title">商品作成｜HARMの法則で設計する</h2>
+      </div>
+      <div class="content-card">
+        <h3>なぜオンライン講座形式なのか</h3>
+        <p>これから商品を作るなら、オンラインで完結する講座形式をおすすめします。在庫がいらず、利益率も高く、何より制作物をすべてデータとして扱えるためAIに任せられるからです。</p>
+        <ul class="check-list">
+          <li>講義動画の台本 → 元になる情報を渡せばAIが下書きを作れる</li>
+          <li>お客様に送る配信文 → 過去の配信を読ませれば同じトーンで作れる</li>
+          <li>教材のスライド → 台本から構成を起こせる</li>
+        </ul>
+        <h3>HARMの法則｜人が本気でお金を払う4領域</h3>
+        <p>何を商品にするか決めるときに、外してはいけない法則があります。人が本気でお金を払う悩みは、次の4つのどれかに必ず入ります。</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>頭文字</th>
+                <th>領域</th>
+                <th>商品テーマの例</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>H</td>
+                <td>Health（健康）</td>
+                <td>ダイエット、体質改善、睡眠、メンタルケア</td>
+              </tr>
+              <tr>
+                <td>A</td>
+                <td>Ambition（キャリア・夢）</td>
+                <td>転職、独立、副業、スキル習得、AI活用</td>
+              </tr>
+              <tr>
+                <td>R</td>
+                <td>Relationship（人間関係）</td>
+                <td>恋愛、夫婦関係、子育て、職場の人間関係</td>
+              </tr>
+              <tr>
+                <td>M</td>
+                <td>Money（お金）</td>
+                <td>集客、売上アップ、資産形成、コスト削減</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="quote">人は「あったらいいな」にはお金を払いません。「この苦痛から逃れたい」に本気でお金を払います。だから商品は「あったら便利」ではなく、悩みを解決する「痛み止め」として設計してください。</div>
+        <h4>自己満足の商品になっていないかチェックする</h4>
+        <ul class="check-list">
+          <li>解決する悩みが、HARMの4領域のどれかに入っているか</li>
+          <li>その悩みは「今すぐ解決したい」レベルか（後回しにされない痛みか）</li>
+          <li>自分が提供できる内容で、その痛みが実際に減るか</li>
+          <li>すでにお金を払って解決しようとしている人がいる領域か</li>
+        </ul>
+        <div class="prompt-card">
+          <div class="prompt-head">
+            <div class="prompt-title">商品コンセプト設計プロンプト</div>
+            <button class="copy-btn" type="button">コピー</button>
+          </div>
+<pre><code>これから作る商品のコンセプトを一緒に設計してください。
+
+【前提】
+・私が教えられること：（ここに書く）
+・過去の経験や苦労したこと：（ここに書く）
+・想定しているお客様：（ここに書く）
+
+【やってほしいこと】
+1. HARMの法則（Health / Ambition / Relationship / Money）の
+   どの領域に当てはまるか整理する
+2. その領域で、お客様が「今すぐ解決したい」と感じる痛みを5つ挙げる
+3. 痛みごとに、私の経験でどう解決できるかを対応させる
+4. 商品コンセプト案を3パターン出す
+
+注意：「あったらいいな」レベルではなく、
+その痛みがないと困る「痛み止め」になっているかを基準にしてください。</code></pre>
+        </div>
+        <h4>実績がなくても始められます</h4>
+        <p>立派な実績である必要はありません。過去に苦労したこと、コンプレックスを乗り越えた経験、人より少しだけ詳しいこと。得意なことは自分にとって当たり前すぎて価値に気づきにくいのですが、それを知らない人からすれば、お金を払ってでも学びたい知識です。</p>
+        <div class="note">
+          何を教えるか迷っている場合、AIの使い方を教える領域は現在需要が伸びています。実際に、AIスキルを身につけて法人向けのAI研修などで月210万円を売り上げた方や、健康・ウェルネス系の講座で月商115万円を達成した方が、講座の受講生から出ています。
+        </div>
+      </div>
+    </section>
+
+    <section id="sec5">
+      <div class="section-header">
+        <div class="section-kicker">SECTION 05</div>
+        <h2 class="section-title">集客①｜APIでリサーチを自動化する</h2>
+      </div>
+      <div class="content-card">
+        <h3>まずは無料のSNSから攻略する</h3>
+        <p>集客には広告とSNSがありますが、まずはSNSをおすすめします。理由はシンプルで、無料だからです。広告も強力ですが費用がかかるので、売上が立ってから考えれば大丈夫です。</p>
+        <h3>APIとは、外部サービスとAIをつなぐ窓口</h3>
+        <p>SNSを伸ばすのが難しいと感じるのは、何が求められているかを手作業で調べているからです。ここでAPI（外部のサービスとAIをつなぐ窓口）を使います。</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>媒体</th>
+                <th>使うAPI・ツール</th>
+                <th>取得できるもの</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>YouTube</td>
+                <td><a href="https://developers.google.com/youtube/v3" target="_blank" rel="noopener">YouTube Data API</a></td>
+                <td>動画情報、再生数、チャンネル情報</td>
+              </tr>
+              <tr>
+                <td>YouTube（分析）</td>
+                <td><a href="https://vidiq.com/" target="_blank" rel="noopener">vidIQ</a></td>
+                <td>登録者数に対する再生倍率などの分析指標</td>
+              </tr>
+              <tr>
+                <td>X</td>
+                <td><a href="https://developer.x.com/en/docs/x-api" target="_blank" rel="noopener">X API</a></td>
+                <td>投稿本文、エンゲージメント数値</td>
+              </tr>
+              <tr>
+                <td>Instagram</td>
+                <td><a href="https://developers.facebook.com/docs/instagram-platform" target="_blank" rel="noopener">Instagram Platform API</a></td>
+                <td>投稿情報、インサイト</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h4>リサーチは2軸で回す</h4>
+        <div class="grid">
+          <div class="mini-card">
+            <strong>軸1：コンテンツを手元に保存する</strong>
+            <p>伸びている投稿の本文そのものを自分のパソコンに保存していく。溜まるほど、AIに読ませる参考資料が分厚くなる。</p>
+          </div>
+          <div class="mini-card">
+            <strong>軸2：数字のデータを取得する</strong>
+            <p>どの投稿がどれだけ見られているかを取得する。何が市場に求められているかがデータで見える。</p>
+          </div>
+        </div>
+        <div class="quote">登録者の3倍以上再生されている動画を探せば、今まさに市場に求められている企画がデータで見えてきます。企画を自分の頭だけで考えないでください。</div>
+        <h4>APIキーの取り扱い</h4>
+        <ul class="check-list">
+          <li>APIキー（サービスを使うためのパスワードのようなもの）は、.envという設定ファイルにまとめて保存する</li>
+          <li>APIキーの中身を、投稿・スクリーンショット・画面共有に絶対に出さない</li>
+          <li>Claude Codeには「.envの中身は表示しないこと」とルールを渡しておく</li>
+        </ul>
+        <div class="prompt-card">
+          <div class="prompt-head">
+            <div class="prompt-title">リサーチ実行プロンプト</div>
+            <button class="copy-btn" type="button">コピー</button>
+          </div>
+<pre><code>SNSのリサーチをしてください。
+
+【調べてほしいこと】
+・ジャンル：（例：AI活用、ダイエット、副業）
+・媒体：（例：X、YouTube）
+
+【やってほしいこと】
+1. そのジャンルで直近伸びている投稿・動画を20件取得する
+2. 取得した本文を 02_リサーチ/ に日付つきで保存する
+3. 数字（再生数・いいね・登録者比）を一覧表にまとめる
+4. 伸びている投稿に共通するパターンを5つ挙げる
+5. そのパターンのうち、私の商品と相性が良いものを指摘する
+
+APIキーは .env から読み込んでください。
+キーの中身は出力しないでください。</code></pre>
+        </div>
+        <h4>参考にすることとパクることの違い</h4>
+        <p>伸びている企画を参考にするのは、パクリではありません。参考にするのは構成と需要だけで、中身は自分の実体験で埋めるからです。</p>
+        <ul class="plain-list">
+          <li>伸びている企画を土台にする（需要がある証拠なので、ゼロから発明しない）</li>
+          <li>そこに自分の実績、自分にしか言えない具体性、独自の切り口を足す</li>
+          <li>結果として、元の企画より強い企画にする</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="sec6">
+      <div class="section-header">
+        <div class="section-kicker">SECTION 06</div>
+        <h2 class="section-title">集客②｜スキル化して投稿を量産する</h2>
+      </div>
+      <div class="content-card">
+        <h3>スキルとは、AIに渡す仕事の手順書</h3>
+        <p>一連の作業を1回手順書にしておくと、次からは一言指示するだけで同じクオリティの仕事が何回でも再現されます。これがClaude Codeのスキルという機能です。</p>
+        <div class="grid three">
+          <div class="mini-card">
+            <strong>リサーチスキル</strong>
+            <p>APIを組み込み、ターゲットが何を求めているかを察知して保存するところまで自動化する。</p>
+          </div>
+          <div class="mini-card">
+            <strong>投稿作成スキル</strong>
+            <p>伸びているコンテンツを参考にしつつ、自分の過去投稿と混ぜて投稿を作る。</p>
+          </div>
+          <div class="mini-card">
+            <strong>サムネイル作成スキル</strong>
+            <p>企画に合わせて、サムネイルの文字案・構図案を出すところまで型にする。</p>
+          </div>
+        </div>
+        <div class="note">
+          過去に投稿してきた実績がある方は、その過去投稿もAIに読ませてください。自分の口調や、反応が良かった型をスキルに反映できるので、出力の精度が一気に上がります。
+        </div>
+        <h3>スキルの作り方は、スキルクリエイターに任せる</h3>
+        <p>手順書を自分で書く必要はありません。Claude CodeやCodexには、スキルを作るためのスキルが最初から入っています。スラッシュを打って「skill creator」と検索すれば出てきます。AIを作った側がまとめたスキルの作り方がそこに入っているので、そのまま使ってください。</p>
+        <div class="prompt-card">
+          <div class="prompt-head">
+            <div class="prompt-title">スキル化プロンプト</div>
+            <button class="copy-btn" type="button">コピー</button>
+          </div>
+<pre><code>これまでのやり取りを参照して、この作業をスキルにしてください。
+
+【スキルにしたい作業】
+リサーチしたデータを読んで、私の過去投稿の口調で
+X投稿を3本作る
+
+【スキルに入れてほしいこと】
+1. 参照するフォルダ（02_リサーチ/ と 03_集客_SNS/）
+2. 私の口調・改行の癖（過去投稿から抽出してください）
+3. 投稿を作る手順
+4. 出来上がった投稿の保存先
+
+次回から一言指示するだけで同じ品質になるようにしてください。</code></pre>
+        </div>
+        <h4>予約投稿・分析まで含めて回す</h4>
+        <p>予約投稿ツールをつなぐと、作った投稿の予約も、自分のアカウントの分析もClaude Code側で完結します。星川の場合、1回リサーチを回して、それをもとに投稿を10本20本作り、予約投稿をまとめて設定して終わり、という運用ができています。</p>
+        <ul class="check-list">
+          <li>リサーチスキルで需要を掴む</li>
+          <li>投稿作成スキルで本数を作る</li>
+          <li>予約投稿ツールでまとめて設定する（<a href="https://omnisocials.com/" target="_blank" rel="noopener">Omnisocials</a> など）</li>
+          <li>数字を見て、伸びた投稿をリサーチフォルダに戻す</li>
+        </ul>
+        <div class="quote">本来なら外注したり、人を雇ってやるような作業がこれで回るようになります。</div>
+      </div>
+    </section>
+
+    <section id="sec7">
+      <div class="section-header">
+        <div class="section-kicker">SECTION 07</div>
+        <h2 class="section-title">販売①｜ナーチャリングとセミナー・VSL</h2>
+      </div>
+      <div class="content-card">
+        <h3>オンラインの商品は、無形なので基本怪しい</h3>
+        <p>講座やコンサルは形がない商品です。お客様からすれば、本当に価値があるのか分からない、詐欺かもしれない。そう思われている前提で売る必要があります。だからこそ、先に信頼を取ります。</p>
+        <h3>ナーチャリングで積み上げる4つのこと</h3>
+        <p>ナーチャリング（見込みのお客様に価値提供しながら信頼を積み上げていくこと）でやるのは、次の4つです。</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>積み上げること</th>
+                <th>具体的にやること</th>
+                <th>発信テーマの例</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>自分を信頼してもらう</td>
+                <td>実績やお客様の成果を発信で見せる</td>
+                <td>お客様の成果報告、自分の実践記録</td>
+              </tr>
+              <tr>
+                <td>課題に気づいてもらう</td>
+                <td>今のままだとどうなるかを伝える</td>
+                <td>放置した場合のリスク、よくある失敗例</td>
+              </tr>
+              <tr>
+                <td>自己投資の大切さ</td>
+                <td>時間をお金で買う考え方を伝える</td>
+                <td>独学と学習の時間差、遠回りした経験</td>
+              </tr>
+              <tr>
+                <td>行動の大切さ</td>
+                <td>行動して人生が変わった話を共有する</td>
+                <td>自分の転機、受講生が動いた瞬間</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="quote">恋愛と同じです。いきなり告白しても無理なので、先に信頼関係を作る。SNSやLINEの発信を見てもらって、動画を見てもらって、少しずつ信頼が溜まった状態で初めて商品の話をします。</div>
+        <h3>セミナーかVSL、どちらかを必ず作る</h3>
+        <p>ナーチャリングを一気に完了させられる場所が2つあります。セミナー（ライブでやる説明会）と、VSL（ビデオセールスレターの略。商品の価値を伝える販売用の動画）です。</p>
+        <div class="grid">
+          <div class="mini-card">
+            <strong>セミナーの強み</strong>
+            <p>ライブなので視聴維持率が圧倒的に高い。最後まで聞いてもらえるので、ナーチャリングが一気に決まる。</p>
+          </div>
+          <div class="mini-card">
+            <strong>VSLの強み</strong>
+            <p>動画なので何回でも使い回せる。視聴者も動画を見ることに慣れている。</p>
+          </div>
+        </div>
+        <div class="note">
+          文章だけで売るより、動画かライブで話すほうが強いのは、メラビアンの法則（人は言葉の中身より、見た目と声から受け取る情報で印象を決めるという法則）が働くためです。視覚・聴覚・言語の情報をすべて届けられるので、一撃で怪しさを払拭できます。
+        </div>
+        <h4>セミナー・VSLの基本構成</h4>
+        <div class="flow">
+          <div class="flow-item">
+            <div class="flow-index">1</div>
+            <div>
+              <h4>掴みと自己紹介</h4>
+              <p>今日話す内容と、なぜ自分が話すのかを伝える。実績はここで出す。</p>
+            </div>
+          </div>
+          <div class="flow-item">
+            <div class="flow-index">2</div>
+            <div>
+              <h4>課題の共有</h4>
+              <p>お客様が抱えている悩みを、お客様自身の言葉で言い当てる。</p>
+            </div>
+          </div>
+          <div class="flow-item">
+            <div class="flow-index">3</div>
+            <div>
+              <h4>価値提供</h4>
+              <p>解決策の全体像を無料で出す。ここで満足度をつくる。</p>
+            </div>
+          </div>
+          <div class="flow-item">
+            <div class="flow-index">4</div>
+            <div>
+              <h4>商品紹介</h4>
+              <p>信頼が一番高まったところで、そのまま商品を案内する。ここまでセットで1本。</p>
+            </div>
+          </div>
+        </div>
+        <h3>告知はLINEかオープンチャットで行う</h3>
+        <p>セミナーの告知をSNSだけでやると、冷やかしのユーザーも混ざります。それに、SNSのフォロワーにはこちらから連絡できません。興味がある方だけをLINEに集めて、そこから直接届けます。</p>
+        <ul class="check-list">
+          <li>セミナーの中身を角度を変えて紹介する</li>
+          <li>参加特典を案内する</li>
+          <li>日程のリマインドを送る（前日・当日）</li>
+          <li>参加できるかどうかを確認する</li>
+        </ul>
+        <div class="quote">SNSが伸びるだけでは売上になりません。商品の価値を伝える場所に連れてきて、初めて売上になります。</div>
+      </div>
+    </section>
+
+    <section id="sec8">
+      <div class="section-header">
+        <div class="section-kicker">SECTION 08</div>
+        <h2 class="section-title">販売②｜プロダクトナレッジと無料相談</h2>
+      </div>
+      <div class="content-card">
+        <h3>商品をデータ化して、AIに読ませる</h3>
+        <p>セミナーやVSLの中身もClaude Codeで作っていきます。そのために必要なのが、商品のデータ化です。これをプロダクトナレッジ（AIに自分の商品を教えるための専用の資料集）と呼んでいます。</p>
+        <p>星川の場合は、<a href="https://utage-system.com/" target="_blank" rel="noopener">UTAGE</a>（講座の配信から決済までをまとめて管理できるツール）に商品を入れています。決済ページと会員サイトが連携するので、購入後の案内やパスワード発行といった手作業が不要になります。使っているツールは何でも構いませんが、商品の情報がひとまとまりになっている状態を先に作ってください。</p>
+        <h4>プロダクトナレッジにまとめる情報</h4>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>まとめる情報</th>
+                <th>中身の例</th>
+                <th>どこで使うか</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>商品の内容と価格</td>
+                <td>カリキュラム、サポート内容、期間、金額</td>
+                <td>商品紹介パート、LP</td>
+              </tr>
+              <tr>
+                <td>お客様がよく言う悩み</td>
+                <td>相談で実際に出た言葉をそのまま記録</td>
+                <td>セミナーの課題共有パート</td>
+              </tr>
+              <tr>
+                <td>よくある質問と回答</td>
+                <td>申し込み前に必ず聞かれること</td>
+                <td>セミナー終盤、LP、配信文</td>
+              </tr>
+              <tr>
+                <td>お客様の成果や声</td>
+                <td>数字つきの成果、感想、変化</td>
+                <td>信頼獲得パート、発信全般</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>特に大事なのがターゲットインサイト（お客様が何に悩んで、何を求めているかの情報）です。これがあると、セミナー台本も販売文も、自分の商品に合った内容でAIが書けるようになります。</p>
+        <h3>ナレッジのまとめはAI駆動。生の声を集めるのは人間</h3>
+        <p>ナレッジをまとめる作業自体はAIに任せて大丈夫です。ただ1つだけ、人間がやってほしいことがあります。ナレッジの元になる、お客様の生の声を集めることです。</p>
+        <div class="quote">AIはお客様の生の声を知りません。例えば40代向けのダイエット講座なら、40代の方が実際にどんな言葉で悩みを話すか。これはAIが推論で書いても、絶対に刺さりません。</div>
+        <h4>無料相談で生の声を集める</h4>
+        <ul class="check-list">
+          <li>知り合い、友人、既存のお客様に、モニターとして無料相談を依頼する</li>
+          <li>無料なので協力してもらいやすく、悩みを聞いて解決策を伝えれば相手にもプラスになる</li>
+          <li>売ることを考えず、聞くことに徹する</li>
+          <li>録音デバイス（<a href="https://jp.plaud.ai/" target="_blank" rel="noopener">PLAUD</a> など）で録音し、文字起こしまでしておく</li>
+          <li>文字起こしを 05_お客様の声/ に保存する。プロダクトナレッジへのまとめはClaude Codeが自動でやってくれる</li>
+        </ul>
+        <h4>無料相談で聞く質問の例</h4>
+        <div class="grid">
+          <div class="mini-card">
+            <strong>現状と悩み</strong>
+            <p>今どんなことで困っているか。いつからその状態か。過去に何を試してうまくいかなかったか。</p>
+          </div>
+          <div class="mini-card">
+            <strong>理想と障害</strong>
+            <p>どうなれたら嬉しいか。それを妨げているものは何だと思うか。何が分かれば動けそうか。</p>
+          </div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-head">
+            <div class="prompt-title">プロダクトナレッジ作成プロンプト</div>
+            <button class="copy-btn" type="button">コピー</button>
+          </div>
+<pre><code>05_お客様の声/ にある無料相談の文字起こしを全部読んで、
+プロダクトナレッジを作ってください。
+
+【まとめてほしい内容】
+1. お客様が実際に使っていた言葉での「悩みの表現」
+   （言い換えず、原文のまま抜き出してください）
+2. 悩みの背景にある本当の課題
+3. お客様が理想としている状態
+4. 申し込みを迷う理由・不安点
+5. よく出てくる質問
+
+【注意】
+・私の解釈で言い換えず、お客様が話した言葉をそのまま残してください
+・複数人に共通していた表現は、共通と分かるように印をつけてください
+
+出力は 01_商品/プロダクトナレッジ.md に保存してください。</code></pre>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-head">
+            <div class="prompt-title">セミナー台本作成プロンプト</div>
+            <button class="copy-btn" type="button">コピー</button>
+          </div>
+<pre><code>プロダクトナレッジをもとに、セミナーの台本を作ってください。
+
+【参照するもの】
+・01_商品/プロダクトナレッジ.md
+・05_お客様の声/ の文字起こし
+・03_集客_SNS/ の過去投稿（私の口調の参考）
+
+【構成】
+1. 掴みと自己紹介（なぜ自分が話すのか）
+2. 課題の共有（お客様の言葉をそのまま使う）
+3. 価値提供（解決策の全体像）
+4. 商品紹介
+
+【注意】
+・課題の共有パートは、必ずお客様が実際に使っていた表現を使ってください
+・私が言っていないことを、それらしく作らないでください
+・根拠のない数字を入れないでください</code></pre>
+        </div>
+        <div class="note">
+          この生の声が入っているかどうかで、セミナーの刺さり方が変わります。自分が今悩んでいることをそのままの言葉で言い当てられると、人は「この人は分かってくれている」と感じます。AI経営と言っていますが、価値の源泉は人間が集めた生の声です。
+        </div>
+      </div>
+    </section>
+
+    <section id="sec9">
+      <div class="section-header">
+        <div class="section-kicker">SECTION 09</div>
+        <h2 class="section-title">運営｜数値改善とサポート</h2>
+      </div>
+      <div class="content-card">
+        <h3>やることは2つだけ</h3>
+        <p>商品ができて、集客と販売の仕組みができたら、あとは運営です。やることは、数字を改善することと、お客様をサポートすることの2つです。</p>
+        <h4>ファネルのどこで人が離れているかを見る</h4>
+        <p>ファネル（お客様が商品を買うまでの流れ）のどこに穴があるかを特定して、1個ずつ塞いでいきます。</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>見る数字</th>
+                <th>低いときに疑うこと</th>
+                <th>まず試す改善</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>SNSからLINEへの登録率</td>
+                <td>登録する理由が弱い</td>
+                <td>特典の内容と訴求文を変える</td>
+              </tr>
+              <tr>
+                <td>セミナーの申込率</td>
+                <td>セミナーで得られるものが不明確</td>
+                <td>案内文で得られる結果を具体化する</td>
+              </tr>
+              <tr>
+                <td>セミナーの参加率</td>
+                <td>リマインドが足りない</td>
+                <td>前日・当日のリマインドを追加する</td>
+              </tr>
+              <tr>
+                <td>セミナーからの成約率</td>
+                <td>ナーチャリングか商品紹介が弱い</td>
+                <td>課題共有パートと価格提示の順番を見直す</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <ul class="check-list">
+          <li>セミナーのテーマを変えて、何回も開催してみる</li>
+          <li>サムネイルや案内文の表現を変えて反応を比べる</li>
+          <li>Xが伸びたらYouTubeやInstagramも始めてみる</li>
+          <li>回すたびにナレッジが溜まるので、AIの精度も上がっていく</li>
+        </ul>
+        <div class="prompt-card">
+          <div class="prompt-head">
+            <div class="prompt-title">ファネル数値の分析プロンプト</div>
+            <button class="copy-btn" type="button">コピー</button>
+          </div>
+<pre><code>ファネルの数値を分析してください。
+
+【今回の数値】
+・SNSからLINE登録：（　）人
+・セミナー申込：（　）人
+・セミナー参加：（　）人
+・成約：（　）人
+
+【やってほしいこと】
+1. 各段階の転換率を計算する
+2. 一番落ちている箇所を特定する
+3. その原因として考えられることを3つ挙げる
+4. 次回試す改善案を、優先順位つきで提案する
+5. 改善の効果を測るために、次回見るべき数字を指定する
+
+前回の数値が 06_実績_数値/ にあれば、比較もしてください。</code></pre>
+        </div>
+        <h3>信頼をつくるのは口コミ、口コミを生むのはサポート</h3>
+        <p>ビジネスで一番大事なのは信頼で、信頼を作るのは口コミです。では口コミはどう生まれるかというと、お客様の成果と満足です。ここは人間の出番です。</p>
+        <ul class="plain-list">
+          <li>どんなコンテンツがあったら嬉しいか</li>
+          <li>どんな対応をされたら嬉しいか</li>
+          <li>オフ会のような場があったほうがいいか</li>
+        </ul>
+        <div class="note">
+          星川の講座では、無制限の個別サポート、月1回のグループコンサルティング、オンライン作業会、週1回のライブセミナーまで、やれるサポートは全部やっています。その結果、セミナースライド作りが2〜3日から数十分になった方や、外注費を年間240万円カットできた方など、成果報告が届いています。AIで浮いた時間を全部サポートに突っ込む。これがAI経営の本質です。
+        </div>
+      </div>
+    </section>
+
+    <section id="sec10">
+      <div class="section-header">
+        <div class="section-kicker">SECTION 10</div>
+        <h2 class="section-title">経理｜freee連携で仕訳を自動化する</h2>
+      </div>
+      <div class="content-card">
+        <h3>経理は売上が立ってからでOK</h3>
+        <p>売上がないのに経理を整えても意味がありません。まずは商品と集客と販売に全力を注いでください。ただ、売上が立ったあとの経理は地味に時間を食います。売上を作る仕事でもないので、ここに自分の時間を使うのはもったいない。AIに任せる価値が一番分かりやすい領域です。</p>
+        <h4>設定の手順</h4>
+        <div class="flow">
+          <div class="flow-item">
+            <div class="flow-index">1</div>
+            <div>
+              <h4>freeeに登録する</h4>
+              <p>クラウド会計ソフト <a href="https://www.freee.co.jp/" target="_blank" rel="noopener">freee会計</a> の有料プランに登録する。</p>
+            </div>
+          </div>
+          <div class="flow-item">
+            <div class="flow-index">2</div>
+            <div>
+              <h4>アカウントを作る</h4>
+              <p>法人用か個人事業主用のアカウントを作成する。両方ある場合は両方作る。</p>
+            </div>
+          </div>
+          <div class="flow-item">
+            <div class="flow-index">3</div>
+            <div>
+              <h4>Claude Codeとつなぐ</h4>
+              <p>MCP（AIと外部サービスをつなぐ仕組み。APIの仲間）を使ってClaude Codeと連携する。</p>
+            </div>
+          </div>
+          <div class="flow-item">
+            <div class="flow-index">4</div>
+            <div>
+              <h4>仕訳ルールを決める</h4>
+              <p>どの取引をどの勘定科目にするかを一度教えておく。次から自動で振り分けられる。</p>
+            </div>
+          </div>
+        </div>
+        <div class="note">
+          用語補足：仕訳（お金の出入りを帳簿に記録する作業）。勘定科目（その支出が何の費用かを分類するラベル。通信費、外注費など）。
+        </div>
+        <h4>仕訳ルールの例</h4>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>取引の例</th>
+                <th>勘定科目</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>サーバー代、各種SaaSの月額利用料</td>
+                <td>通信費</td>
+              </tr>
+              <tr>
+                <td>外注スタッフへの支払い</td>
+                <td>外注費</td>
+              </tr>
+              <tr>
+                <td>広告出稿費</td>
+                <td>広告宣伝費</td>
+              </tr>
+              <tr>
+                <td>書籍・教材の購入</td>
+                <td>新聞図書費</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-head">
+            <div class="prompt-title">仕訳ルール設定プロンプト</div>
+            <button class="copy-btn" type="button">コピー</button>
+          </div>
+<pre><code>freeeと連携して、仕訳の自動化を設定してください。
+
+【やってほしいこと】
+1. 未処理の取引を一覧で出す
+2. 取引内容から勘定科目を提案する
+3. 繰り返し出てくる取引は、自動仕訳ルールとして登録する
+4. 判断に迷う取引は、理由をつけて確認リストにまとめる
+
+【私の仕訳ルール】
+・サーバー代、SaaS月額 → 通信費
+・外注スタッフへの支払い → 外注費
+・広告出稿費 → 広告宣伝費
+（自分のルールを追記してください）
+
+金額や取引先の情報は、外部に送信しないでください。</code></pre>
+        </div>
+        <div class="quote">仕訳のルールを最初に決めておけば、あとは自動で処理されていきます。確定申告前に領収書の山と戦う必要はもうありません。</div>
+        <h4>使う前の注意</h4>
+        <ul class="check-list">
+          <li>最終的な申告内容は必ず自分か税理士が確認する（AIの出力をそのまま提出しない）</li>
+          <li>freeeのAPIキーも .env に保存し、中身は表示しない</li>
+          <li>個人情報や取引先情報を含むデータを、外部サービスに渡さない</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="cta">
+      <h2>まずはここから</h2>
+      <p>自分の商品や事業の情報を1つのフォルダにまとめるところから始めてください。AI経営は、AIに何を読ませるかがすべてです。フォルダに情報が溜まった分だけ、Claude Codeに任せられる仕事が増えていきます。</p>
+    </section>
+  </div>
+
+  <button class="back-to-top" type="button" aria-label="ページ上部へ戻る">↑</button>
+
+  <script>
+    document.body.classList.add("motion-ready");
+
+    document.querySelectorAll(".hero-meta span").forEach((item, index) => {
+      item.style.setProperty("--i", index);
+    });
+
+    const buttons = document.querySelectorAll(".copy-btn");
+    buttons.forEach((button) => {
+      button.addEventListener("click", async () => {
+        const card = button.closest(".prompt-card");
+        const code = card ? card.querySelector("code") : null;
+        if (!code) return;
+        const text = code.innerText;
+        try {
+          await navigator.clipboard.writeText(text);
+          const original = button.textContent;
+          button.textContent = "コピー済み";
+          button.classList.add("copied");
+          setTimeout(() => {
+            button.textContent = original;
+            button.classList.remove("copied");
+          }, 1400);
+        } catch (error) {
+          button.textContent = "選択してコピー";
+        }
+      });
+    });
+
+    const progressFill = document.querySelector(".scroll-progress span");
+    const backToTop = document.querySelector(".back-to-top");
+    const hero = document.querySelector(".hero");
+    const sections = Array.from(document.querySelectorAll("section[id^='sec']"));
+    const tocLinks = Array.from(document.querySelectorAll(".toc-list a"));
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const sectionRail = document.createElement("nav");
+    sectionRail.className = "section-rail";
+    sectionRail.setAttribute("aria-label", "セクションナビゲーション");
+    sectionRail.innerHTML = sections.map((section, index) => {
+      const title = section.querySelector(".section-title")?.innerText || `SECTION ${index + 1}`;
+      return `<a href="#${section.id}" aria-label="${title}"></a>`;
+    }).join("");
+    document.body.appendChild(sectionRail);
+    const railLinks = Array.from(sectionRail.querySelectorAll("a"));
+
+    const updateScrollState = () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+      const progress = Math.min(Math.max(scrollTop / maxScroll, 0), 1);
+
+      if (progressFill) {
+        progressFill.style.width = `${progress * 100}%`;
+      }
+
+      if (backToTop) {
+        backToTop.classList.toggle("is-visible", scrollTop > 700);
+      }
+
+      sectionRail.classList.toggle("is-visible", scrollTop > 700);
+
+      let currentId = "";
+      sections.forEach((section) => {
+        const top = section.getBoundingClientRect().top;
+        if (top <= 160) {
+          currentId = section.id;
+        }
+      });
+
+      tocLinks.forEach((link) => {
+        link.classList.toggle("is-active", link.getAttribute("href") === `#${currentId}`);
+      });
+
+      railLinks.forEach((link) => {
+        link.classList.toggle("is-active", link.getAttribute("href") === `#${currentId}`);
+      });
+    };
+
+    const revealTargets = document.querySelectorAll(".hero, .intro, .toc, .section-header, .content-card, .cta");
+
+    if (prefersReducedMotion) {
+      revealTargets.forEach((target) => target.classList.add("is-visible"));
+    } else {
+      revealTargets.forEach((target) => target.classList.add("reveal"));
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: "0px 0px -60px 0px" });
+
+      revealTargets.forEach((target) => revealObserver.observe(target));
+    }
+
+    if (hero && !prefersReducedMotion) {
+      hero.addEventListener("pointermove", (event) => {
+        const rect = hero.getBoundingClientRect();
+        const x = ((event.clientX - rect.left) / rect.width) * 100;
+        const y = ((event.clientY - rect.top) / rect.height) * 100;
+        hero.style.setProperty("--mx", `${x}%`);
+        hero.style.setProperty("--my", `${y}%`);
+      });
+    }
+
+    const tiltTargets = document.querySelectorAll(".mini-card, .flow-item, .prompt-card");
+
+    if (!prefersReducedMotion && window.matchMedia("(hover: hover)").matches) {
+      tiltTargets.forEach((target) => {
+        target.classList.add("tilt-card");
+
+        target.addEventListener("pointermove", (event) => {
+          const rect = target.getBoundingClientRect();
+          const relX = (event.clientX - rect.left) / rect.width;
+          const relY = (event.clientY - rect.top) / rect.height;
+          const rotateY = (relX - 0.5) * 7;
+          const rotateX = (0.5 - relY) * 7;
+
+          target.style.setProperty("--rx", `${rotateX.toFixed(2)}deg`);
+          target.style.setProperty("--ry", `${rotateY.toFixed(2)}deg`);
+          target.style.setProperty("--lift", "-2px");
+          target.style.setProperty("--glare", "1");
+          target.style.setProperty("--gx", `${(relX * 160 - 80).toFixed(1)}%`);
+        });
+
+        target.addEventListener("pointerleave", () => {
+          target.style.setProperty("--rx", "0deg");
+          target.style.setProperty("--ry", "0deg");
+          target.style.setProperty("--lift", "0px");
+          target.style.setProperty("--glare", "0");
+          target.style.setProperty("--gx", "-120%");
+        });
+      });
+    }
+
+    if (backToTop) {
+      backToTop.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
+      });
+    }
+
+    updateScrollState();
+    window.addEventListener("scroll", updateScrollState, { passive: true });
+    window.addEventListener("resize", updateScrollState);
+  </script>
+</body>
+</html>
